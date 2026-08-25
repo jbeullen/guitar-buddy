@@ -852,3 +852,158 @@ body.sheet-open { overflow: hidden; }
   .note-btn .alt { font-size: 9px; }
   .marker { width: 24px; height: 24px; font-size: 10px; }
 }
+
+/* ---------- landscape: the whole neck, nut on the left ---------- */
+/* Turn the phone sideways and the board transposes — frets become columns
+   running left to right from the nut, strings become rows. Guarded by height
+   so a desktop window keeps the portrait layout. */
+
+@media (orientation: landscape) and (max-height: 620px) {
+  :root { --gutter: 16px; }
+
+  .app {
+    display: grid;
+    max-width: none;
+    gap: 5px;
+    padding: max(4px, env(safe-area-inset-top)) max(8px, env(safe-area-inset-right))
+             max(4px, env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    grid-template-rows: auto 3px minmax(0, 1fr) auto;
+    grid-template-areas:
+      "modes prompt foot top"
+      "prog  prog   prog prog"
+      "neck  neck   neck neck"
+      "pad   pad    pad  pad";
+  }
+
+  .topbar { grid-area: top; gap: 8px; }
+  .modes { grid-area: modes; grid-template-columns: repeat(3, auto); padding: 3px; }
+  .prompt { grid-area: prompt; }
+  .progress { grid-area: prog; }
+  .neck-wrap { grid-area: neck; min-height: 0; }
+  .pad, .explore-tools { grid-area: pad; }
+  .footer { grid-area: foot; }
+  .filters { display: none; }
+
+  .brand h1, .best { display: none; }
+  .score { font-size: 15px; }
+  .mode-btn { padding: 6px 10px; font-size: 12px; }
+
+  .prompt {
+    min-height: 0;
+    font-size: 13px;
+    padding: 0 8px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    line-height: 30px;
+  }
+  .prompt .big { font-size: 17px; }
+
+  .start-btn {
+    width: auto;
+    min-height: 30px;
+    padding: 0 16px;
+    font-size: 13px;
+    border-radius: 9px;
+  }
+
+  /* one row of twelve, so the neck keeps the height */
+  .pad { grid-template-columns: repeat(12, 1fr); gap: 4px; }
+  .note-btn { min-height: 38px; font-size: 13px; border-radius: 8px; }
+  .note-btn .alt { font-size: 8px; }
+
+  .explore-tools { flex-direction: row; justify-content: center; gap: 12px; }
+  .ghost-btn { min-height: 34px; font-size: 13px; }
+  .hint { font-size: 11px; }
+
+  /* ---- the board, transposed ---- */
+
+  .neck {
+    flex-direction: row;
+    max-width: none;
+    margin: 0;
+  }
+
+  .neck.has-more::after { display: none; }
+
+  .string-heads {
+    width: 13px;
+    flex: none;
+    grid-template-columns: 1fr;
+    grid-template-rows: var(--gutter) repeat(6, 1fr);
+  }
+
+  .head { padding: 0 3px 0 0; display: flex; align-items: center; justify-content: center; }
+
+  .nut-row {
+    width: 7px;
+    flex: none;
+    grid-template-columns: 1fr;
+    grid-template-rows: var(--gutter) 1fr;
+  }
+
+  .nut { width: 100%; height: 100%; border-radius: 2px; }
+
+  .board {
+    flex-direction: row;
+    overflow: hidden;
+    border-radius: 0 8px 8px 0;
+  }
+
+  .board-row {
+    flex: 1 1 0;
+    min-width: 0;
+    min-height: 0;
+    grid-template-columns: 1fr;
+    grid-template-rows: var(--gutter) repeat(6, 1fr);
+  }
+
+  .open-row { flex: 0 0 auto; width: 32px; min-height: 0; }
+
+  .fret-no { font-size: 9px; }
+
+  .cell {
+    border-bottom: 0;
+    border-right: 2px solid rgba(20, 12, 4, 0.65);
+    box-shadow: inset -3px 0 4px -3px rgba(0, 0, 0, 0.6);
+  }
+
+  .open-row .cell { border-right: 0; }
+
+  /* the rolled edges are top and bottom now */
+  .cell[data-string="0"] {
+    box-shadow: inset -3px 0 4px -3px rgba(0, 0, 0, 0.6),
+                inset 0 6px 9px -6px rgba(0, 0, 0, 0.75);
+  }
+
+  .cell[data-string="5"] {
+    box-shadow: inset -3px 0 4px -3px rgba(0, 0, 0, 0.6),
+                inset 0 -6px 9px -6px rgba(0, 0, 0, 0.75);
+  }
+
+  /* strings run left to right */
+  .cell::before {
+    left: 0;
+    right: 0;
+    top: 50%;
+    bottom: auto;
+    width: auto;
+    transform: translateY(-50%);
+    background: linear-gradient(180deg, #7d818a, #d6dae2 45%, #7d818a);
+  }
+
+  .cell[data-string="0"]::before { height: 4px; width: auto; }
+  .cell[data-string="1"]::before { height: 3.4px; width: auto; }
+  .cell[data-string="2"]::before { height: 2.8px; width: auto; }
+  .cell[data-string="3"]::before { height: 2.2px; width: auto; }
+  .cell[data-string="4"]::before { height: 1.8px; width: auto; }
+  .cell[data-string="5"]::before { height: 1.4px; width: auto; }
+
+  /* inlays sit between two strings, so on the cell's lower edge */
+  .cell.inlay-r::after { left: 50%; top: 100%; }
+  .cell.inlay-l::after { left: 50%; top: 0%; }
+
+  .marker { width: 23px; height: 23px; font-size: 10px; }
+}
