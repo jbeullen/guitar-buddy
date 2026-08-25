@@ -972,13 +972,29 @@ body.sheet-open { overflow: hidden; }
 
   .open-row .cell { border-right: 0; }
 
-  /* the rolled edges are top and bottom now */
-  .cell[data-string="0"] {
+  /* Strings run the other way round here: low E along the bottom and the high
+     E on top, the way tab and chord charts are written. */
+  .cell[data-string="0"] { grid-row: 7; }
+  .cell[data-string="1"] { grid-row: 6; }
+  .cell[data-string="2"] { grid-row: 5; }
+  .cell[data-string="3"] { grid-row: 4; }
+  .cell[data-string="4"] { grid-row: 3; }
+  .cell[data-string="5"] { grid-row: 2; }
+
+  .string-heads > div:nth-child(2) { grid-row: 7; }
+  .string-heads > div:nth-child(3) { grid-row: 6; }
+  .string-heads > div:nth-child(4) { grid-row: 5; }
+  .string-heads > div:nth-child(5) { grid-row: 4; }
+  .string-heads > div:nth-child(6) { grid-row: 3; }
+  .string-heads > div:nth-child(7) { grid-row: 2; }
+
+  /* the rolled edges are top and bottom now, and the top row is the high string */
+  .cell[data-string="5"] {
     box-shadow: inset -3px 0 4px -3px rgba(0, 0, 0, 0.6),
                 inset 0 6px 9px -6px rgba(0, 0, 0, 0.75);
   }
 
-  .cell[data-string="5"] {
+  .cell[data-string="0"] {
     box-shadow: inset -3px 0 4px -3px rgba(0, 0, 0, 0.6),
                 inset 0 -6px 9px -6px rgba(0, 0, 0, 0.75);
   }
@@ -1001,9 +1017,10 @@ body.sheet-open { overflow: hidden; }
   .cell[data-string="4"]::before { height: 1.8px; width: auto; }
   .cell[data-string="5"]::before { height: 1.4px; width: auto; }
 
-  /* inlays sit between two strings, so on the cell's lower edge */
-  .cell.inlay-r::after { left: 50%; top: 100%; }
-  .cell.inlay-l::after { left: 50%; top: 0%; }
+  /* An inlay sits between its string and the next one up the neck, which is
+     the row above once the order is reversed. */
+  .cell.inlay-r::after { left: 50%; top: 0%; }
+  .cell.inlay-l::after { left: 50%; top: 100%; }
 
   .marker { width: 23px; height: 23px; font-size: 10px; }
 }
